@@ -39,7 +39,7 @@ resource "aws_ram_resource_association" "network_association" {
 # Example: Share with entire Org (Preferred for simplifying management)
 resource "aws_ram_principal_association" "org_association" {
   # You can pass the Org ARN or specific OU ARN here
-  principal          = var.share_principal_arn 
+  principal          = var.share_principal_arn
   resource_share_arn = aws_ram_resource_share.network_share.arn
 }
 
@@ -65,7 +65,7 @@ resource "aws_secretsmanager_secret_version" "service_network_info_val" {
 # Policy: Allow CONSUMERS to READ this secret
 resource "aws_secretsmanager_secret_policy" "consumer_read_policy" {
   secret_arn = aws_secretsmanager_secret.service_network_info.arn
-  policy     = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
       Sid       = "AllowConsumersToRead"
@@ -91,7 +91,7 @@ resource "aws_secretsmanager_secret" "provider_registry" {
 # Policy: Allow PROVIDERS to WRITE to this secret
 resource "aws_secretsmanager_secret_policy" "provider_write_policy" {
   secret_arn = aws_secretsmanager_secret.provider_registry.arn
-  policy     = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
       Sid       = "AllowProvidersToWrite"
@@ -110,20 +110,20 @@ resource "aws_kms_key" "secrets_key" {
   description             = "KMS Key for Lattice Secrets"
   deletion_window_in_days = 7
   enable_key_rotation     = true
-  
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Sid = "Enable IAM User Permissions"
-        Effect = "Allow"
+        Sid       = "Enable IAM User Permissions"
+        Effect    = "Allow"
         Principal = { AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" }
-        Action = "kms:*"
-        Resource = "*"
+        Action    = "kms:*"
+        Resource  = "*"
       },
       {
-        Sid = "Allow Consumer and Provider Access"
-        Effect = "Allow"
+        Sid       = "Allow Consumer and Provider Access"
+        Effect    = "Allow"
         Principal = { AWS = concat(var.consumer_account_principals, var.provider_account_principals) }
         Action = [
           "kms:Encrypt",

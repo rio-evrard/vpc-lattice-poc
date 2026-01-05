@@ -18,3 +18,9 @@ variable "consumer_account_principals" {
   description = "List of Consumer Account Root ARNs allowed to read network info"
   type        = list(string)
 }
+
+variable "vpc_lattice_network_enabled" {
+  description = "Whether to enable the VPC Lattice Network module"
+  type        = bool
+  default     = true
+}
