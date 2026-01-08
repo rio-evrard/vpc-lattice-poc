@@ -1,12 +1,6 @@
 # ------------------------------------------------------------------------------
 # 1. THE AUTOMATION LAMBDA (The "Glue")
 # # ------------------------------------------------------------------------------
-# data "archive_file" "associator_zip" {
-#   type        = "zip"
-#   source_file = "${path.module}/lambda_src/associator.py"
-#   output_path = "${path.module}/associator.zip"
-# }
-
 resource "aws_lambda_function" "associator" {
   function_name    = "lattice-auto-associator"
   role             = aws_iam_role.associator_role.arn
@@ -85,9 +79,6 @@ resource "aws_iam_role_policy_attachment" "attach_associator" {
 # ------------------------------------------------------------------------------
 # 3. EVENT TRIGGER (CloudTrail / EventBridge)
 # ------------------------------------------------------------------------------
-# Trigger Lambda when "PutSecretValue" is called on our specific secret.
-# NOTE: This requires a CloudTrail Trail to be enabled in the region.
-
 resource "aws_cloudwatch_event_rule" "secret_update" {
   name        = "capture-lattice-secret-update"
   description = "Trigger automation when a Provider registers a service"

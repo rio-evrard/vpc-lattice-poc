@@ -2,7 +2,6 @@
 # 1. WRITER ROLE (For Service Providers)
 # ------------------------------------------------------------------------------
 # This role allows Provider Accounts to "Publish" their service info.
-
 resource "aws_iam_role" "secrets_writer" {
   name = "CentralNetworkSecretsWriter"
 
@@ -62,7 +61,6 @@ resource "aws_iam_role_policy_attachment" "writer_attach" {
 # 2. READER ROLE (For Consumers)
 # ------------------------------------------------------------------------------
 # This role allows Consumer Accounts to "Discover" the Network ID.
-
 resource "aws_iam_role" "secrets_reader" {
   name = "CentralNetworkSecretsReader"
 
